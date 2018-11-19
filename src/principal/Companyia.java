@@ -466,7 +466,7 @@ public class Companyia {
      Retorn: cap
      */
     public void afegirTripulantCabina() {
-
+        
         this.tripulantsCabina[posicioTripulantsCabina] = TripulantCabina.nouTripulantCabina();
         this.posicioTripulantsCabina++;
         
@@ -569,7 +569,23 @@ public class Companyia {
      Retorn: cap
      */
     public void afegirAvioVol() {
-
+        int codiAvio;
+        int codiVol;
+        
+        codiAvio=seleccionarAvio();
+        codiVol=seleccionarVol();
+        
+        if (codiVol==-1){
+            System.out.print("\nNo existeix aquest vol");
+        }
+        if (codiAvio==-1){
+            System.out.print("\nNo existeix aquest avió");
+        }
+        else {
+            Avio nAvio=getAvions()[codiAvio];
+            Vol nVol=getVols()[codiVol];
+            nVol.setAvio(nAvio); 
+        }        
     }
 
     /*
@@ -587,7 +603,23 @@ public class Companyia {
      Retorn: cap
      */
     public void afegirTripulantCabinaVol() {
-
+        int codiTC;
+        int codiVol;
+        
+        codiTC=seleccionarTripulantCabina();
+        codiVol=seleccionarVol();
+        
+        if (codiVol==-1){
+            System.out.print("\nNo existeix aquest vol");
+        }
+        if (codiTC==-1){
+            System.out.print("\nNo existeix aquest tripulant de cabina");
+        }
+        else {
+            TripulantCabina nTripulantCabina=getTripulantsCabina()[codiTC];
+            Vol nVol=getVols()[codiVol];
+            nVol.afegirTripulantCabina(nTripulantCabina);
+        } 
     }
     
     /*
@@ -603,7 +635,23 @@ public class Companyia {
      Retorn: cap
      */
     public void afegirTCPVol() {
-  
+        int codiTCP;
+        int codiVol;
+        
+        codiTCP=seleccionarTCP();
+        codiVol=seleccionarVol();
+        
+        if (codiVol==-1){
+            System.out.print("\nNo existeix aquest vol");
+        }
+        if (codiTCP==-1){
+            System.out.print("\nNo existeix aquest tripulant de cabina de passatgersa");
+        }
+        else {
+            TCP nTCP=getTcps()[codiTCP];
+            Vol nVol=getVols()[codiVol];
+            nVol.afegirTCP(nTCP);
+        } 
     }
 
     /*
@@ -624,7 +672,79 @@ public class Companyia {
      Retorn: cap
      */
     public void afegirRutaVol(int tipus) {
-    
+        int codiRuta=-1;
+        int codiVol;
+        int tipusRuta;
+        
+        codiVol=seleccionarVol();
+        
+        if (codiVol==-1){
+            System.out.print("\nNo existeix aquest vol");
+        }
+        
+        do {
+            System.out.println("\nSelecciona una ruta");
+            System.out.println("\n1. Ruta nacional");
+            System.out.println("\n2. Ruta internacional");
+            System.out.println("\n3. Ruta intercontinental");
+            System.out.println("\n4. Ruta transoceànic");
+            
+            tipusRuta=DADES.nextInt();
+        
+            switch (tipusRuta){
+                case 1:
+                    codiRuta=seleccionarRutaNacional();
+                    if (codiRuta==-1){
+                        System.out.print("\nNo existeix aquesta ruta");
+                    }
+                    else {
+                        RutaNacional nRuta=getRutesNacionals()[codiRuta];
+                        Vol nVol=getVols()[codiVol];
+                        nVol.setRuta(nRuta);
+                        nVol.setTipusRuta(tipusRuta);
+                    } 
+                    break;
+                case 2:
+                    codiRuta=seleccionarRutaInternacional();
+                    if (codiRuta==-1){
+                        System.out.print("\nNo existeix aquesta ruta");
+                    }
+                    else {
+                        RutaInternacional nRuta=getRutesInternacionals()[codiRuta];
+                        Vol nVol=getVols()[codiVol];
+                        nVol.setRuta(nRuta);
+                        nVol.setTipusRuta(tipusRuta);
+                    } 
+                    break;
+                case 3:
+                    codiRuta=seleccionarRutaIntercontinental();
+                    if (codiRuta==-1){
+                        System.out.print("\nNo existeix aquesta ruta");
+                    }
+                    else {
+                        RutaIntercontinental nRuta=getRutesIntercontinentals()[codiRuta];
+                        Vol nVol=getVols()[codiVol];
+                        nVol.setRuta(nRuta);
+                        nVol.setTipusRuta(tipusRuta);
+                    } 
+                    break;
+                case 4:
+                    codiRuta=seleccionarRutaTransoceanica();
+                    if (codiRuta==-1){
+                        System.out.print("\nNo existeix aquesta ruta");
+                    }
+                    else {
+                        RutaTransoceanica nRuta=getRutesTransoceaniques()[codiRuta];
+                        Vol nVol=getVols()[codiVol];
+                        nVol.setRuta(nRuta);
+                        nVol.setTipusRuta(tipusRuta);
+                    }
+                    break;
+                default:
+                    System.out.println("No s'ha seleccionat correctament la ruta");
+            }
+        } while(tipusRuta>5 && tipusRuta<1);
+                
     }
 
     

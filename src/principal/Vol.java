@@ -42,7 +42,7 @@ public class Vol {
     /*
      CONSTRUCTOR
      Paràmetres: valors per tots els atributs de la classe menys ruta, avio,
-     tripulacioCabina, posicioTripulacioCabina, tcp i posicioTCP.
+     tripulacioCabina, posicioTripulacioCabina,tipusRuta, tcp i posicioTCP.
      Accions:
      - Assignar als atributs els valors passats com a paràmetres.
      - Inicialitzar ruta i avio a null, ja que quan es crea un vol, encara no s'han
@@ -286,23 +286,24 @@ public class Vol {
      - Se li assignarà a l'atribut durada el valor tenint en compte que la durada
      és la diferència de temps entre la data i hora de sortida, i la data i hora
      d'arribada.
-     - La durada ha de tenir el format "X h - Y s", on X seran les hores de durada i Y els minuts
+     - La durada ha de tenir el format "X h - Y m", on X seran les hores de durada i Y els minuts
      Retorn: cap
     */
     private void calcularDurada() {
         
-        int hores;
-        int minuts;
+        long difHores =  (this.dataArribada.getTime()+((getHoraArribada().getHour() + ((getHoraArribada().getMinute()) / 60))*3600)) - (this.dataSortida.getTime()+((getHoraSortida().getHour() + ((getHoraSortida().getMinute()) / 60))*3600));
         
-        int hSortida=horaSortida.getHora();
-        int mSortida=horaSortida.getMinute();
+        double hores=difHores/3600;
+        int hora = (int)hores;
+        double minuts = (hores-hora)*100;
+        int minut = (int)minuts+1;
         
-        int hArribada=horaArribada.getHora();
-        int mArribada=horaArribada.getMinute();
+        String durHora=Integer.toString(hora);
+        String durMin=Integer.toString(minut);
         
-        
+        setDurada(durHora+" h - "+durMin+" m");
     }
-
+    
     /*
      Paràmetres: tripulant de cabina
      Accions:
@@ -315,7 +316,21 @@ public class Vol {
         
         posicioTripulacioCabina++;
     }
+    public int seleccionarTripulantCabinal() {
 
+        System.out.println("\nCodi del tripulant de cabinal?:");
+        boolean trobat = false;
+        int pos = -1;
+
+        for (int i = 0; i < getPosicioTripulacioCabina() && !trobat; i++) {
+            if (getTripulacioCabina()[i].getPassaport().equals(DADES.next())) {
+                pos = i;
+                trobat = true;
+            }
+        }
+
+        return pos;
+    }
     /*
      Paràmetres: TCP
      Accions:
@@ -328,7 +343,21 @@ public class Vol {
         
         posicioTcps++;
     }
-    
+    public int seleccionarTCP() {
+
+        System.out.println("\nCodi del TCP?:");
+        boolean trobat = false;
+        int pos = -1;
+
+        for (int i = 0; i < getPosicioTcps() && !trobat; i++) {
+            if (getTcps()[i].getPassaport().equals(DADES.next())) {
+                pos = i;
+                trobat = true;
+            }
+        }
+
+        return pos;
+    }
     public void mostrarVol() {
         System.out.println("\nLes dades del vol amb codi " + getCodi() + " són:");
 
