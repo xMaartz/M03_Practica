@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  *
@@ -23,19 +24,20 @@ import java.util.Date;
  */
 public class Vol {
 
-    private String codi;
-    private Object ruta;
-    private int tipusRuta;
-    private Avio avio;
-    private TripulantCabina[] tripulacioCabina;
-    private int posicioTripulacioCabina;
-    private TCP[] tcps;
-    private int posicioTcps;
+    public String codi;
+    public Object ruta;
+    public int tipusRuta;
+    public Avio avio;
+    public TripulantCabina[] tripulacioCabina;
+    public int posicioTripulacioCabina;
+    public TCP[] tcps;
+    public int posicioTcps;
     private Date dataSortida;
     private Date dataArribada;
     private LocalTime horaSortida;
     private LocalTime horaArribada;
     private String durada;
+    private static final Scanner DADES = new Scanner(System.in);
 
     /*
      CONSTRUCTOR
@@ -52,13 +54,131 @@ public class Vol {
      - Inicialitzar els atributs posicioTripulacioCabina i posicioTcps a 0.
      - Inicialitzar l'atribut durada amb el mètode pertinent d'aquesta classe.
      */
-    
+    public Vol (String pCodi, Date pDataSortida, Date pDataArribada, int pHoraSortida, int minutsSortida, int pHoraArribada, int minutsArribada){
+        codi=pCodi;
+        ruta=null;
+        tipusRuta=0;
+        avio=null;
+        tripulacioCabina=new TripulantCabina[7];
+        posicioTripulacioCabina=0;
+        tcps=new TCP[25];
+        posicioTcps=0;
+        dataSortida=pDataSortida;
+        dataArribada=pDataArribada;
+        horaSortida=LocalTime.of(pHoraSortida, minutsSortida);
+        horaArribada=LocalTime.of(pHoraArribada, minutsArribada);
+        
+        calcularDurada();
+    }
 
     /*
     Mètodes accessors
      */
     
+    public String getCodi() {
+        return codi;
+    }
 
+    public void setCodi(String codi) {
+        this.codi = codi;
+    }
+
+    public Object getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(Object ruta) {
+        this.ruta = ruta;
+    }
+
+    public int getTipusRuta() {
+        return tipusRuta;
+    }
+
+    public void setTipusRuta(int tipusRuta) {
+        this.tipusRuta = tipusRuta;
+    }
+
+    public Avio getAvio() {
+        return avio;
+    }
+
+    public void setAvio(Avio avio) {
+        this.avio = avio;
+    }
+
+    public TripulantCabina[] getTripulacioCabina() {
+        return tripulacioCabina;
+    }
+
+    public void setTripulacioCabina(TripulantCabina[] tripulacioCabina) {
+        this.tripulacioCabina = tripulacioCabina;
+    }
+
+    public int getPosicioTripulacioCabina() {
+        return posicioTripulacioCabina;
+    }
+
+    public void setPosicioTripulacioCabina(int posicioTripulacioCabina) {
+        this.posicioTripulacioCabina = posicioTripulacioCabina;
+    }
+
+    public TCP[] getTcps() {
+        return tcps;
+    }
+
+    public void setTcps(TCP[] tcps) {
+        this.tcps = tcps;
+    }
+
+    public int getPosicioTcps() {
+        return posicioTcps;
+    }
+
+    public void setPosicioTcps(int posicioTcps) {
+        this.posicioTcps = posicioTcps;
+    }
+    
+    public Date getDataSortida(){
+        return dataSortida;
+    }
+    
+    public void setDataSortida(Date dataSortida){
+        this.dataSortida=dataSortida;
+    }
+    
+    public Date getDataArribada(){
+        return dataArribada;
+    }
+    
+    public void setDataArribada(Date dataArribada){
+        this.dataArribada=dataArribada;
+    }
+    
+    public LocalTime getHoraSortida(){
+        return horaSortida;
+    }
+    
+    public void setHoraSortida(LocalTime horaSortida){
+        this.horaSortida=horaSortida;
+    }
+    
+    public LocalTime getHoraArribada(){
+        return horaArribada;
+    }
+    
+    public void setHoraArribada(LocalTime horaArribada){
+        this.horaArribada=horaArribada;
+    }
+    
+    public String getDurada() {
+        return durada;
+    }
+
+    public void setDurada(String durada) {
+        this.durada = durada;
+    }
+    
     /*
     Paràmetres: cap
     Accions:
@@ -73,6 +193,36 @@ public class Vol {
      */
     public static Vol nouVol() throws ParseException {
         
+        String nCodi;
+        Date nDataSortida;
+        Date nDataArribada;
+        int nHoraSortida;
+        int minutsSortida;
+        int nHoraArribada;
+        int minutsArribada;
+        
+        System.out.print("Introdueix el codi: ");
+        nCodi=DADES.nextLine();
+
+        System.out.print("Introdueix la data de sortida(dd-mm-yyyy): ");
+        nDataSortida=new SimpleDateFormat("dd-MM-yyyy").parse(new Scanner(System.in).nextLine());
+        
+        System.out.print("Introdueix la data de arribada (dd-mm-yyyy): ");
+        nDataArribada=new SimpleDateFormat("dd-MM-yyyy").parse(new Scanner(System.in).nextLine());
+
+        System.out.print("Introdueix la hora de sortida : ");
+        nHoraSortida=DADES.nextInt();
+        System.out.print("Introdueix els minuts de sortida : ");
+        minutsSortida=DADES.nextInt();
+        
+        System.out.print("Introdueix la hora de arribada : ");
+        nHoraArribada=DADES.nextInt();
+        System.out.print("Introdueix els minuts de arribada : ");
+        minutsArribada=DADES.nextInt();
+        
+        Vol nVol = new Vol(nCodi,nDataSortida,nDataArribada,nHoraSortida,minutsSortida,nHoraArribada,minutsArribada);
+        
+        return nVol;
     }
 
     /*
@@ -92,8 +242,44 @@ public class Vol {
      */
     public void modificarVol() throws ParseException {
         
-    }
+        String nCodi;
+        Date nDataSortida;
+        Date nDataArribada;
+        int nHoraSortida;
+        int minutsSortida;
+        int nHoraArribada;
+        int minutsArribada;
+        
+        mostrarVol();
+        
+        System.out.print("Introdueix el codi: ");
+        nCodi=DADES.nextLine();
 
+        System.out.print("Introdueix la data de sortida(dd-mm-yyyy): ");
+        nDataSortida=new SimpleDateFormat("dd-MM-yyyy").parse(new Scanner(System.in).nextLine());
+        
+        System.out.print("Introdueix la data de arribada (dd-mm-yyyy): ");
+        nDataArribada=new SimpleDateFormat("dd-MM-yyyy").parse(new Scanner(System.in).nextLine());
+
+        System.out.print("Introdueix la hora de sortida : ");
+        nHoraSortida=DADES.nextInt();
+        System.out.print("Introdueix els minuts de sortida : ");
+        minutsSortida=DADES.nextInt();
+        
+        System.out.print("Introdueix la hora de arribada : ");
+        nHoraArribada=DADES.nextInt();
+        System.out.print("Introdueix els minuts de arribada : ");
+        minutsArribada=DADES.nextInt();
+        
+        calcularDurada();
+        
+        this.codi=nCodi;
+        this.dataSortida=nDataSortida;
+        this.dataArribada=nDataArribada;
+        this.horaSortida=LocalTime.of(nHoraSortida,minutsSortida);
+        this.horaArribada=LocalTime.of(nHoraArribada,minutsArribada);
+    }
+    
     /*
      Paràmetres: cap
      Accions:
@@ -102,9 +288,19 @@ public class Vol {
      d'arribada.
      - La durada ha de tenir el format "X h - Y s", on X seran les hores de durada i Y els minuts
      Retorn: cap
-     */
+    */
     private void calcularDurada() {
-
+        
+        int hores;
+        int minuts;
+        
+        int hSortida=horaSortida.getHora();
+        int mSortida=horaSortida.getMinute();
+        
+        int hArribada=horaArribada.getHora();
+        int mArribada=horaArribada.getMinute();
+        
+        
     }
 
     /*
@@ -115,7 +311,9 @@ public class Vol {
      Retorn: cap
      */
     public void afegirTripulantCabina(TripulantCabina tripulantCabina) {
-
+        tripulacioCabina[posicioTripulacioCabina]=tripulantCabina;
+        
+        posicioTripulacioCabina++;
     }
 
     /*
@@ -126,30 +324,32 @@ public class Vol {
      Retorn: cap
      */
     public void afegirTCP(TCP tcp) {
-
+        tcps[posicioTcps]=tcp;
+        
+        posicioTcps++;
     }
     
     public void mostrarVol() {
-        System.out.println("\nLes dades del vol amb codi " + codi + " són:");
+        System.out.println("\nLes dades del vol amb codi " + getCodi() + " són:");
 
         System.out.println("\nRuta: ");
-        switch (tipusRuta) {
+        switch (getTipusRuta()) {
             case 1:
-                ((RutaNacional) ruta).mostrarRutaNacional();
+                ((RutaNacional) getRuta()).mostrarRutaNacional();
                 break;
             case 2:
-                ((RutaInternacional) ruta).mostrarRutaInternacional();
+                ((RutaInternacional) getRuta()).mostrarRutaInternacional();
                 break;
             case 3:
-                ((RutaIntercontinental) ruta).mostrarRutaIntercontinental();
+                ((RutaIntercontinental) getRuta()).mostrarRutaIntercontinental();
                 break;
             case 4:
-                ((RutaTransoceanica) ruta).mostrarRutaTransoceanica();
+                ((RutaTransoceanica) getRuta()).mostrarRutaTransoceanica();
                 break;
         }
 
         System.out.println("\nAvio: ");
-        avio.mostrarAvio();
+        getAvio().mostrarAvio();
 
         System.out.println("\nData de sortida: " + new SimpleDateFormat("dd-MM-yyyy").format(dataSortida));
         System.out.println("\nData d'arribada: " + new SimpleDateFormat("dd-MM-yyyy").format(dataArribada));
@@ -157,13 +357,13 @@ public class Vol {
         System.out.println("\nHores d'arribada: " + horaArribada.getHour() + ":" + horaArribada.getMinute());
 
         System.out.println("\nLa tripulació de cabina és:");
-        for (int i = 0; i < posicioTripulacioCabina; i++) {
-            tripulacioCabina[i].mostrarTripulantCabina();
+        for (int i = 0; i < getPosicioTripulacioCabina(); i++) {
+            getTripulacioCabina()[i].mostrarTripulantCabina();
         }
 
         System.out.println("\nLa tripulació de cabina de passatgers és:");
-        for (int i = 0; i < posicioTcps; i++) {
-            tcps[i].mostrarTCP();
+        for (int i = 0; i < getPosicioTcps(); i++) {
+            getTcps()[i].mostrarTCP();
         }
 
         System.out.println("\nDurada: " + durada);
