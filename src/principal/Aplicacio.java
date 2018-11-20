@@ -652,7 +652,17 @@ public class Aplicacio {
                     companyiaActual.afegirAvioVol();
                     break;
                 case 4:
-                    companyiaActual.afegirRutaVol(tipus); // falta que pida el tipus!
+                    int tipus=0;
+                    do {
+                        System.out.println("\nSelecciona el tipus de ruta");
+                        System.out.println("\n1. Nacional");
+                        System.out.println("\n2. Internacional");
+                        System.out.println("\n3. Intercontinental");
+                        System.out.println("\n4. Transoceanica");
+                        
+                        tipus = DADES.nextInt();
+                    }while(tipus > 5 && tipus < 1);
+                    companyiaActual.afegirRutaVol(tipus);
                     break;
                 case 5:
                     companyiaActual.afegirTripulantCabinaVol();
